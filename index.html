@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="../../css/normalize.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <script src="../../js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+
+<input type ="button" value = "원을 그려요" onclick="drawCircle()"/>
+<input type ="button" value = "타원을 그려요" onclick="drawEllipse()"/>
+<div id="panel"></div>
+
+<script type="text/javascript">
+
+    var DataSketch = d3.select("#panel")
+            .append("svg:svg")
+            .attr("width", 1000)
+            .attr("height", 900);
+
+    DataSketch.append("svg:circle")
+            .attr("id", "blueCircle")
+            .attr("cx", 50)
+            .attr("cy", 140)
+            .attr("r", 40)
+            .attr("fill", "blue")
+            .call(d3.behavior.drag().on("drag", move));
+
+    DataSketch.append("svg:circle")
+            .attr("id", "redCircle")
+            .attr("cx", 100)
+            .attr("cy", 140)
+            .attr("r", 40)
+            .attr("fill", "red")
+            .call(d3.behavior.drag().on("drag", move));
+
+    function move(){
+        this.parentNode.appendChild(this);
+        var dragTarget = d3.select(this);
+        dragTarget
+                .attr("cx", function(){return d3.event.dx + parseInt(dragTarget.attr("cx"))})
+                .attr("cy", function(){return d3.event.dy + parseInt(dragTarget.attr("cy"))});
+    };
+    function zoom(){
+        this.parentNode.appendChild(this);
+        var zoomTarget = d3.select(this);
+        zoomTarget
+                .attr("cx", function(){return d3.event.dx + parseInt(zoomTarget.attr("cx"))})
+                .attr("cy", function(){return d3.event.dy + parseInt(zoomTarget.attr("cy"))});
+    };
+    function drawCircle() {
+        DataSketch.append("svg:circle")
+                .attr("id", "newCircle")
+                .attr("cx", 150)
+                .attr("cy", 140)
+                .attr("r", 40)
+                .attr("fill", "blue")
+                .call(d3.behavior.drag().on("drag", move));
+
+    }
+    function drawEllipse() {
+        DataSketch.append("svg:ellipse")
+                .attr("id", "newEllipse")
+                .attr("cx", 150)
+                .attr("cy", 200)
+                .attr("rx", 40)
+                .attr("ry", 60)
+                .attr("fill", "Yellow")
+                .call(d3.behavior.drag().on("drag", move));
+
+    }
+
+</script>
+
+</body>
+</html>
